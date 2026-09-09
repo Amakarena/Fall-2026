@@ -51,17 +51,13 @@ def calculate_sizes(v):
     that your children have.
     recursive.
     '''
-    # tree = BinaryTree(v)
+    # base case
+    if v is None:
+        return 0
     # size includes self
     v.size = 1
-    if v.left != None:
-        calculate_sizes(v.left)
-        v.size += v.left.size
-    if v.right != None:
-        calculate_sizes(v.right)
-        v.size += v.right.size
-    return
-
+    v.size += calculate_sizes(v.left) + calculate_sizes(v.right)
+    return v.size
 
 
 #
@@ -75,5 +71,32 @@ def calculate_sizes(v):
 # Runtime: O(h) 
 
 def FindDescendantOfSize(t, v):
-    # Your code goes here 
-    pass 
+    # Your code goes here
+    '''
+    t is a POS INT, v is a "SIZE AUGMENTED" TREE st v.size >= 2t + 1.
+    Find subtree with root w wherein t <= w.size <= 2t - 1.
+    Should use calculate_sizes methinks. OOHHHH already size augmented
+    '''
+    # Base cases
+    # tree doesn't exist case (tech shohuldn't hit bc we know v is at least 2t + 1
+    # v already in range
+    if v is None:
+        return None
+    if (v.size <= 2*t - 1) and (v.size >= t):
+        return v
+    
+    # Check child size is over (at most 2t) or perfectly already in range
+    # Not possible to reach this step if child is below range
+    if v.left is not None:
+        if (v.left.size >= 2*t):
+            return FindDescendantOfSize(t, v.left)
+        # impossible to be less than t given v.size is at least 2t + 1
+        elif (v.left.size >= t):
+            return v.left
+    
+    if v.right is not None:
+        if (v.right.size >= 2*t):
+            return FindDescendantOfSize(t, v.right)
+        # impossible to be less than t given v.size is at least 2t + 1
+        elif (v.right.size >= t):
+            return v.right
