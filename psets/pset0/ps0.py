@@ -26,6 +26,14 @@ class BTvertex:
         self.key: int = key
         self.size: int = None
 
+# Test tree
+root = BTvertex(1200)
+tree = BinaryTree(root)
+tree.root.left = BTvertex(1210)
+tree.root.right = BTvertex(1240)
+print(tree.root.key)
+print(tree.root.right.key)
+
 
 #
 # Problem 1a
@@ -38,7 +46,22 @@ class BTvertex:
 # Runtime: O(n)
 def calculate_sizes(v):
     # Your code goes here
-    pass 
+    '''
+    include urself if u exist as well as the number of children
+    that your children have.
+    recursive.
+    '''
+    # tree = BinaryTree(v)
+    # size includes self
+    v.size = 1
+    if v.left != None:
+        calculate_sizes(v.left)
+        v.size += v.left.size
+    if v.right != None:
+        calculate_sizes(v.right)
+        v.size += v.right.size
+    return
+
 
 
 #
