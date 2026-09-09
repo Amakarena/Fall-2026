@@ -45,7 +45,6 @@ print(tree.root.right.key)
 # ... tree rooted at vertex v to the size of that subtree
 # Runtime: O(n)
 def calculate_sizes(v):
-    # Your code goes here
     '''
     include urself if u exist as well as the number of children
     that your children have.
@@ -70,32 +69,27 @@ def calculate_sizes(v):
 # Runtime: O(h) 
 
 def FindDescendantOfSize(t, v):
-    # Your code goes here
-    '''
+     '''
     t is a POS INT, v is a "SIZE AUGMENTED" TREE st v.size >= 2t + 1.
     Find subtree with root w wherein t <= w.size <= 2t - 1.
     Should use calculate_sizes methinks. OOHHHH already size augmented
     '''
-    # Base cases
-    # tree doesn't exist case (tech shohuldn't hit bc we know v is at least 2t + 1
-    # v already in range
-    if v is None:
-        return None
-    if (v.size <= 2*t - 1) and (v.size >= t):
-        return v
-    
-    # Check child size is over (at most 2t) or perfectly already in range
-    # Not possible to reach this step if child is below range
+    # removed base cases (v is none and v.size is in range because they never hit given the
+    # inputs since is always at least 2t + 1)
+
+    # Check child size is over or perfectly already in range because
+        # sum of child sizes is at least 2t so one child must be at least t
     if v.left is not None:
+        # just out of range
         if (v.left.size >= 2*t):
             return FindDescendantOfSize(t, v.left)
-        # impossible to be less than t given v.size is at least 2t + 1
+        # if less than t ignore and go to right child
         elif (v.left.size >= t):
             return v.left
     
     if v.right is not None:
+        # just out of range
         if (v.right.size >= 2*t):
             return FindDescendantOfSize(t, v.right)
-        # impossible to be less than t given v.size is at least 2t + 1
         elif (v.right.size >= t):
             return v.right
