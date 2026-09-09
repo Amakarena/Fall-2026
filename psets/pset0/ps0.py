@@ -54,9 +54,8 @@ def calculate_sizes(v):
     # base case
     if v is None:
         return 0
-    # size includes self
-    v.size = 1
-    v.size += calculate_sizes(v.left) + calculate_sizes(v.right)
+    # size includes self and child sizes
+    v.size = 1 + calculate_sizes(v.left) + calculate_sizes(v.right)
     return v.size
 
 
