@@ -26,6 +26,14 @@ class BTvertex:
         self.key: int = key
         self.size: int = None
 
+# Test tree
+root = BTvertex(1200)
+tree = BinaryTree(root)
+tree.root.left = BTvertex(1210)
+tree.root.right = BTvertex(1240)
+print(tree.root.key)
+print(tree.root.right.key)
+
 
 #
 # Problem 1a
@@ -37,8 +45,17 @@ class BTvertex:
 # ... tree rooted at vertex v to the size of that subtree
 # Runtime: O(n)
 def calculate_sizes(v):
-    # Your code goes here
-    pass 
+    '''
+    include urself if u exist as well as the number of children
+    that your children have.
+    recursive.
+    '''
+    # base case
+    if v is None:
+        return 0
+    # size includes self and child sizes
+    v.size = 1 + calculate_sizes(v.left) + calculate_sizes(v.right)
+    return v.size
 
 
 #
@@ -52,5 +69,27 @@ def calculate_sizes(v):
 # Runtime: O(h) 
 
 def FindDescendantOfSize(t, v):
-    # Your code goes here 
-    pass 
+    '''
+    t is a POS INT, v is a "SIZE AUGMENTED" TREE st v.size >= 2t + 1.
+    Find subtree with root w wherein t <= w.size <= 2t - 1.
+    Should use calculate_sizes methinks. OOHHHH already size augmented
+    '''
+    # removed base cases (v is none and v.size is in range because they never hit given the
+    # inputs since is always at least 2t + 1)
+
+    # Check child size is over or perfectly already in range because
+        # sum of child sizes is at least 2t so one child must be at least t
+    if v.left is not None:
+        # just out of range
+        if (v.left.size >= 2*t):
+            return FindDescendantOfSize(t, v.left)
+        # if less than t ignore and go to right child
+        elif (v.left.size >= t):
+            return v.left
+    
+    if v.right is not None:
+        # just out of range
+        if (v.right.size >= 2*t):
+            return FindDescendantOfSize(t, v.right)
+        elif (v.right.size >= t):
+            return v.right
