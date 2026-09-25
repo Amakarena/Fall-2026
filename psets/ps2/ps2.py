@@ -108,3 +108,4 @@ class BinarySearchTree:
             self.size += 1
         # recalculating each node takes needlessly more time
         return self
+# done
