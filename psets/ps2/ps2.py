@@ -47,7 +47,7 @@ class BinarySearchTree:
         return self.size
 
     '''
-    Select the ind-th key in the tree
+    Select the ind-th key in the tree (the ind-th smallest index)
     
     ind: a number between 0 and n-1 (the number of nodes/objects)
     returns BinarySearchTree/Node or None
@@ -58,10 +58,13 @@ class BinarySearchTree:
             left_size = self.left.size
         if ind == left_size:
             return self
+        # if you can fit under left tree then go left
         if left_size > ind and self.left is not None:
             return self.left.select(ind)
+        # if not then go right
         if left_size < ind and self.right is not None:
-            return self.right.select(ind)
+            # select should be called on a shortened index
+            return self.right.select(ind-left_size-1)
         return None
 
 
@@ -79,6 +82,7 @@ class BinarySearchTree:
         elif self.left is not None:
             return self.left.search(key)
         return None
+    # This appears to be correct BST search
     
 
     '''
@@ -95,9 +99,12 @@ class BinarySearchTree:
             if self.left is None:
                 self.left = BinarySearchTree(self.debugger)
             self.left.insert(key)
+            # increase size immediately after each insert
+            self.size += 1
         elif self.key < key:
             if self.right is None:
                 self.right = BinarySearchTree(self.debugger)
             self.right.insert(key)
-        self.calculate_sizes()
+            self.size += 1
+        # recalculating each node takes needlessly more time
         return self
